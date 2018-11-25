@@ -124,7 +124,8 @@ if(window.parent.frames['l'].location.href.indexOf('do_test_table') !== -1) {
 	// Normal Test
 	var wotext = <?php echo prepare_textdata_js($_REQUEST["WoText"]); ?>;
 	var status = <?php echo prepare_textdata_js($_REQUEST["WoStatus"]); ?>;
-	var trans = <?php echo prepare_textdata_js($translation . getWordTagList($wid,' ',1,0)); ?>;
+	// var trans = <?php echo prepare_textdata_js($translation . getWordTagList($wid,' ',1,0)); ?>;
+	var trans = <?php echo prepare_textdata_js("[" . $_REQUEST["WoRomanization"] . "] " . $translation); ?>;
 	var roman = <?php echo prepare_textdata_js($_REQUEST["WoRomanization"]); ?>;
 	$('.word' + woid, context).attr('data_text',wotext).attr('data_trans',trans).attr('data_rom',roman).attr('data_status',status);
 }  

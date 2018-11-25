@@ -50,7 +50,8 @@ $res = do_mysqli_query($sql);
 $record = mysqli_fetch_assoc($res);
 if ($record) {
 	$word = $record['WoText'];
-	$trans = repl_tab_nl($record['WoTranslation']) . getWordTagList($wid,' ',1,0);
+	//$trans = repl_tab_nl($record['WoTranslation']) . getWordTagList($wid,' ',1,0);
+	$trans = "[" . $_REQUEST["WoRomanization"] . "] ". repl_tab_nl($record['WoTranslation']);
 	$roman = $record['WoRomanization'];
 } else {
 	my_die("Word not found in set_word_status.php"); 

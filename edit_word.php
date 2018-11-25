@@ -142,7 +142,8 @@ var context = window.parent.frames['l'].document;
 var contexth = window.parent.frames['h'].document;
 var woid = <?php echo prepare_textdata_js($wid); ?>;
 var status = <?php echo prepare_textdata_js($_REQUEST["WoStatus"]); ?>;
-var trans = <?php echo prepare_textdata_js($translation . getWordTagList($wid,' ',1,0)); ?>;
+//var trans = <?php echo prepare_textdata_js($translation . getWordTagList($wid,' ',1,0)); ?>;
+var trans = <?php echo prepare_textdata_js("[" . $_REQUEST["WoRomanization"] . "] ". $translation ); ?>;
 var roman = <?php echo prepare_textdata_js($_REQUEST["WoRomanization"]); ?>;
 var title = window.parent.frames['l'].JQ_TOOLTIP?'':make_tooltip(<?php echo prepare_textdata_js($_REQUEST["WoText"]); ?>,trans,roman,status);
 <?php
