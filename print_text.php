@@ -48,7 +48,7 @@ function output_text($saveterm,$saverom,$savetrans,$savetags,
 		if ($savetrans == '' && $savetags != '') 
 			$savetrans = '* ' . $savetags;
 		else
-			$savetrans = trim($savetrans . ' ' . $savetags);
+			$savetrans = trim('['. $saverom . '] ' . $savetrans );
 	}
 	if ($show_rom && $saverom == '') $show_rom = 0;
 	if ($show_trans && $savetrans == '') $show_trans = 0;

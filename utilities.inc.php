@@ -2443,11 +2443,15 @@ function createDictLinksInEditWin($lang,$word,$sentctljs,$openfirst) {
 	$wb2 = isset($record['LgDict2URI']) ? $record['LgDict2URI'] : "";
 	$wb3 = isset($record['LgGoogleTranslateURI']) ? $record['LgGoogleTranslateURI'] : "";
 	mysqli_free_result($res);
+
 	$r ='';
 	if ($openfirst) {
+    
+        $opendict = mb_strlen($word) > 1 ? $wb2 : $wb1;
+    
 		$r .= '<script type="text/javascript">';
 		$r .= "\n//<![CDATA[\n";
-		$r .= makeOpenDictStrJS(createTheDictLink($wb1,$word));
+		$r .= makeOpenDictStrJS(createTheDictLink($opendict,$word));
 		$r .= "//]]>\n</script>\n";
 	}
 	$r .= 'Lookup Term: ';
