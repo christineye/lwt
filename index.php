@@ -106,7 +106,7 @@ if (! areCookiesEnabled()) document.write('<p class="red">*** Cookies are not en
 			&nbsp; &nbsp; 
 			<a href="do_test.php?text=<?php echo $currenttext; ?>"><img src="icn/question-balloon.png" title="Test" alt="Test" />&nbsp;Test</a>
 			&nbsp; &nbsp; 
-			<a href="print_text.php?text=<?php echo $currenttext; ?>"><img src="icn/printer.png" title="Print" alt="Print" />&nbsp;Print</a>
+			<a href="mobile.php?action=3&text=<?php echo $currenttext; ?>"><img src="icn/printer.png" title="Print" alt="Print" />&nbsp;Mobile</a>
 <?php
 			if ((get_first_value("select length(TxAnnotatedText) as value from " . $tbpref . "texts where TxID = " . (int)$currenttext) + 0) > 0) {
 ?>

@@ -53,7 +53,54 @@ require_once( 'utilities.inc.php' );
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta http-equiv="content-language" content="en" />
-<title>Mobile LWT</title>
+<title>
+<?php
+/**************************************************************/
+
+if (isset($_REQUEST["action"])) {  // Action
+
+	$action = $_REQUEST["action"] + 0; // Action code
+
+	/* -------------------------------------------------------- */
+
+	if ($action == 1) { 
+	
+		$lang = $_REQUEST["lang"];
+		$langname = getLanguage($lang);
+
+		echo $langname;
+	
+	} // $action == 1
+	
+	/* -------------------------------------------------------- */
+	
+	elseif ($action == 2) { 
+	
+		$lang = $_REQUEST["lang"];
+		$langname = getLanguage($lang);
+		
+        echo $langname;
+	
+	} // $action == 2
+	
+	/* -------------------------------------------------------- */
+	
+	elseif ($action == 3) { 
+			$text = $_REQUEST["text"];
+		$texttitle = get_first_value('select TxTitle as value from ' . $tbpref . 'texts where TxID = ' . $text);
+
+		echo tohtml($texttitle); 
+	} // $action == 3
+	
+	/* -------------------------------------------------------- */
+	
+	
+} // isset($_REQUEST["action"])
+
+/**************************************************************/
+
+?>
+</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 <link rel="apple-touch-icon" href="img/apple-touch-icon-57x57.png" />
 <link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon-72x72.png" />
@@ -455,7 +502,7 @@ else
 {
 
 ?>
-<ul id="home" title="Mobile LWT" selected="true" class="listing">
+<ul id="home" title="Mobile LWT" selected="true" >
 	<li class="group">Languages</li>
 <?php
 	$sql = 'select LgID, LgName from ' . $tbpref . 'languages where LgName<>"" order by LgName';
