@@ -251,7 +251,7 @@ if (isset($_REQUEST['op'])) {
 	</tr>
 	<tr>
 	<td class="td1 right">Maximum<br />Sentences<br />per Text:</td>
-	<td class="td1"><input type="text" class="notempty posintnumber"  data_info="Maximum Sentences per Text" name="maxsent" value="50" maxlength="3" size="3" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /><br /><span class="smallgray">Values higher than 100 may slow down text display.<br />Very low values (< 5) may result in too many texts.<br />The maximum number of new texts must not exceed <?php echo ($max_input_vars-20); ?>.<br />A single new text will never exceed the length of 65,000 bytes.</span></td>
+	<td class="td1"><input type="text" class="notempty posintnumber"  data_info="Maximum Sentences per Text" name="maxsent" value="999" maxlength="3" size="3" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /><br /><span class="smallgray">Values higher than 100 may slow down text display.<br />Very low values (< 5) may result in too many texts.<br />The maximum number of new texts must not exceed <?php echo ($max_input_vars-20); ?>.<br />A single new text will never exceed the length of 65,000 bytes.</span></td>
 	</tr>
 	<tr>
 	<td class="td1 right">Source URI:</td>

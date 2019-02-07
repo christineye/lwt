@@ -131,14 +131,7 @@ h4 {
 .nword{
 	background-color: #FFF;
 }
-#thetext {
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-}
+
 textarea {
 	font: 85% "Lucida Grande",Arial,sans-serif,STHeiti,"Arial Unicode MS",MingLiu;
 	border: 1px solid #C6C6C6;

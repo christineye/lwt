@@ -66,7 +66,7 @@ echo '</a>&nbsp; | &nbsp;';
 quickMenu();
 echo getPreviousAndNextTextLinks($textid, 'do_text.php?start=', FALSE, '&nbsp; | &nbsp;');
 echo '&nbsp; | &nbsp;<a href="do_test.php?text=' . $textid . '" target="_top"><img src="icn/question-balloon.png" title="Test" alt="Test" /></a> &nbsp;<a href="print_text.php?text=' . $textid . '" target="_top"><img src="icn/printer.png" title="Print" alt="Print" />' . get_annotation_link($textid) . ' &nbsp;<a target="_top" href="edit_texts.php?chg=' . $textid . '"><img src="icn/document--pencil.png" title="Edit Text" alt="Edit Text" /></a>&nbsp; | &nbsp;<a href="new_word.php?text=' . $textid . '&amp;lang=' . $langid . '" target="ro"><img src="icn/sticky-note--plus.png" title="New Term" alt="New Term" /></a>';
-echo '</h4><table><tr><td><h3>READ&nbsp;▶</h3></td><td class="width99pc"><h3>' . tohtml($title) . (isset($sourceURI) && substr(trim($sourceURI),0,1)!='#' ? ' <a href="' . $sourceURI . '" target="_blank"><img src="'.get_file_path('icn/chain.png').'" title="Text Source" alt="Text Source" /></a>' : '') . '</h3></td></tr></table>';
+echo '</h4><table><tr><td><h3>READ&nbsp;▶</h3></td><td class="width99pc"><h3>' . tohtml($title) . (isset($sourceURI) && substr(trim($sourceURI),0,1)!='#' ? ' <a href="' . $sourceURI . '" target="_blank"><img src="'.get_file_path('icn/chain.png').'" title="Text Source" alt="Text Source" /></a>' : '') . '</h3>' .  getTextTagsAsFlatLine($textid) . '</td></tr></table>';
 
 $showAll = getSettingZeroOrOne('showallwords', 1);
 
@@ -74,9 +74,14 @@ $showAll = getSettingZeroOrOne('showallwords', 1);
 <table class="width99pc"><tr><td class="center" colspan="7" style="padding:2px 5px 5px 5px;" nowrap="nowrap">TO DO: <span id="learnstatus"><?php echo texttodocount2($_REQUEST['text']); ?></span>&nbsp;&nbsp;&nbsp;&nbsp;<span title="[Show All] = ON: ALL terms are shown, and all multi-word terms are shown as superscripts before the first word. The superscript indicates the number of words in the multi-word term. 
 [Show All] = OFF: Multi-word terms now hide single words and shorter or overlapping multi-word terms.">Show All&nbsp;<input type="checkbox" id="showallwords" <?php echo get_checked($showAll); ?> /></span><span id="thetextid" class="hide"><?php echo $textid; ?></span></td></tr>
 
+
+
 <?php
 
 makeAudioPlayer($audio,$pos);
+
+
+
 
 ?>
 </table>

@@ -159,61 +159,61 @@ window.iui =
 
 // *************************************************************************************************
 
-addEventListener("load", function(event)
-{
-    var page = iui.getSelectedPage();
-    if (page)
-        iui.showPage(page);
+// addEventListener("load", function(event)
+// {
+    // var page = iui.getSelectedPage();
+    // if (page)
+        // iui.showPage(page);
 
-    setTimeout(preloadImages, 0);
-    setTimeout(checkOrientAndLocation, 0);
-    checkTimer = setInterval(checkOrientAndLocation, 300);
-}, false);
+    // setTimeout(preloadImages, 0);
+    // setTimeout(checkOrientAndLocation, 0);
+    // checkTimer = setInterval(checkOrientAndLocation, 300);
+// }, false);
 
-addEventListener("unload", function(event)
-{
-	return;
-}, false);
+// addEventListener("unload", function(event)
+// {
+	// return;
+// }, false);
     
-addEventListener("click", function(event)
-{
-    var link = findParent(event.target, "a");
-    if (link)
-    {
-        function unselect() { link.removeAttribute("selected"); }
+// addEventListener("click", function(event)
+// {
+    // var link = findParent(event.target, "a");
+    // if (link)
+    // {
+        // function unselect() { link.removeAttribute("selected"); }
         
-        if (link.href && link.hash && link.hash != "#")
-        {
-            link.setAttribute("selected", "true");
-            iui.showPage($(link.hash.substr(1)));
-            setTimeout(unselect, 500);
-        }
-        else if (link == $("backButton"))
-            history.back();
-        else if (link.getAttribute("type") == "submit")
-            submitForm(findParent(link, "form"));
-        else if (link.getAttribute("type") == "cancel")
-            cancelDialog(findParent(link, "form"));
-        else if (link.target == "_replace")
-        {
-            link.setAttribute("selected", "progress");
-            iui.showPageByHref(link.href, null, null, link, unselect);
-        }
-        else if (iui.isNativeUrl(link.href))
-        {
-            return;
-        }
-        else if (!link.target)
-        {
-            link.setAttribute("selected", "progress");
-            iui.showPageByHref(link.href, null, null, null, unselect);
-        }
-        else
-            return;
+        // if (link.href && link.hash && link.hash != "#")
+        // {
+            // link.setAttribute("selected", "true");
+            // iui.showPage($(link.hash.substr(1)));
+            // setTimeout(unselect, 500);
+        // }
+        // else if (link == $("backButton"))
+            // history.back();
+        // else if (link.getAttribute("type") == "submit")
+            // submitForm(findParent(link, "form"));
+        // else if (link.getAttribute("type") == "cancel")
+            // cancelDialog(findParent(link, "form"));
+        // else if (link.target == "_replace")
+        // {
+            // link.setAttribute("selected", "progress");
+            // iui.showPageByHref(link.href, null, null, link, unselect);
+        // }
+        // else if (iui.isNativeUrl(link.href))
+        // {
+            // return;
+        // }
+        // else if (!link.target)
+        // {
+            // link.setAttribute("selected", "progress");
+            // iui.showPageByHref(link.href, null, null, null, unselect);
+        // }
+        // else
+            // return;
         
-        event.preventDefault();        
-    }
-}, true);
+        // event.preventDefault();        
+    // }
+// }, true);
 
 addEventListener("click", function(event)
 {
@@ -307,7 +307,7 @@ function updatePage(page, fromPage)
     if (!page.id)
         page.id = "__" + (++newPageCount) + "__";
 
-    location.href = currentHash = hashPrefix + page.id;
+    //location.href = currentHash = hashPrefix + page.id;
     pageHistory.push(page.id);
 
     var pageTitle = $("pageTitle");

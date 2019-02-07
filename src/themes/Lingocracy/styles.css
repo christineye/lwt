@@ -182,14 +182,7 @@ h4 {
 .wsty.hword:after,.wsty.hword:before{
 	opacity:1
 }
-#thetext {
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-}
+
 textarea {
 	font: 85% "Lucida Grande",Arial,sans-serif,STHeiti,"Arial Unicode MS",MingLiu;
 	border: 1px solid #C6C6C6;
@@ -554,6 +547,12 @@ tr:last-child {
 th.sorttable,th.sorttable_nosort,th.sorttable_numeric,th.clickable {
 	border-bottom-right-radius: 0px !important;
 	border-bottom-left-radius: 0px !important;
+}
+
+.texttags span
+{
+    color: #888;
+    margin-right: 10px;
 }
 
 /**************************************************************

@@ -948,7 +948,7 @@ function getWordTags($wid) {
 
 function getTextTags($tid) {
 	global $tbpref;
-	$r = '<ul id="texttags">';
+	$r = '<ul id="texttags" class="texttags">';
 	if ($tid > 0) {
 		$sql = 'select T2Text from ' . $tbpref . 'texttags, ' . $tbpref . 'tags2 where T2ID = TtT2ID and TtTxID = ' . $tid . ' order by T2Text';
 		$res = do_mysqli_query($sql);
@@ -958,6 +958,21 @@ function getTextTags($tid) {
 		mysqli_free_result($res);
 	}
 	$r .= '</ul>';
+	return $r;
+}
+
+function getTextTagsAsFlatLine($tid) {
+	global $tbpref;
+	$r = '<span class="texttags">';
+	if ($tid > 0) {
+		$sql = 'select T2Text from ' . $tbpref . 'texttags, ' . $tbpref . 'tags2 where T2ID = TtT2ID and TtTxID = ' . $tid . ' order by T2Text';
+		$res = do_mysqli_query($sql);
+		while ($record = mysqli_fetch_assoc($res)) {
+			$r .= '<span>' . tohtml($record["T2Text"]) . '</span>';
+		}
+		mysqli_free_result($res);
+	}
+	$r .= '</span>';
 	return $r;
 }
 
@@ -3915,7 +3930,7 @@ function makeAudioPlayer($audio,$offset=0) {
 <tr>
 <td class="width45pc">&nbsp;</td>
 <td class="center borderleft" style="padding-left:10px;">
-<span id="do-single" class="click<?php echo ($repeatMode ? '' : ' hide'); ?>" style="color:#09F;font-weight: bold;" title="Toggle Repeat (Now ON)">↻</span><span id="do-repeat" class="click<?php echo ($repeatMode ? ' hide' : ''); ?>" style="color:grey;font-weight: bold;" title="Toggle Repeat (Now OFF)">↻</span><div id="playbackrateContainer" style="font-size: 80%;position:relative;-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;"></div>
+<span id="do-single" class="click<?php echo ($repeatMode ? '' : ' hide'); ?>" style="color:#09F;font-weight: bold;" title="Toggle Repeat (Now ON)">↻</span><span id="do-repeat" class="click<?php echo ($repeatMode ? ' hide' : ''); ?>" style="color:grey;font-weight: bold;" title="Toggle Repeat (Now OFF)">↻</span><div id="playbackrateContainer" style="font-size: 80%;position:relative;"></div>
 </td>
 <td class="center bordermiddle">&nbsp;</td>
 <td class="bordermiddle">

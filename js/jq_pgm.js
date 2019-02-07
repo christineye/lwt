@@ -167,7 +167,7 @@ function word_click_event_do_test_test() {
 }
 
 function keydown_event_do_test_test(a) {
-    if (32 == a.which && 0 == OPENED) return $(".word").click(), cClick(), window.parent.frames.ro.location.href = "show_word.php?wid=" + $(".word").attr("data_wid") + "&ann=", OPENED = 1, !1;
+    //if (32 == a.which && 0 == OPENED) return $(".word").click(), cClick(), window.parent.frames.ro.location.href = "show_word.php?wid=" + $(".word").attr("data_wid") + "&ann=", OPENED = 1, !1;
     if (0 == OPENED) return !0;
     if (38 == a.which) return window.parent.frames.ro.location.href = "set_test_status.php?wid=" + WID + "&stchange=1", !1;
     if (40 == a.which) return window.parent.frames.ro.location.href = "set_test_status.php?wid=" + WID + "&stchange=-1", !1;
@@ -408,7 +408,7 @@ function keydown_event_do_text_text(a) {
             offset: -150
         }), a = "", "undefined" != typeof curr.attr("data_ann") &&
         (a = curr.attr("data_ann")), window.parent.frames.ro.location.href = "show_word.php?wid=" + curr.attr("data_wid") + "&ann=" + encodeURIComponent(a), !1;
-    if (39 == a.which || 32 == a.which) return $("span.kwordmarked").removeClass("kwordmarked"), TEXTPOS++, TEXTPOS >= c && (TEXTPOS = 0), curr = b.eq(TEXTPOS), curr.addClass("kwordmarked"), $(window).scrollTo(curr, {
+    if (39 == a.which) return $("span.kwordmarked").removeClass("kwordmarked"), TEXTPOS++, TEXTPOS >= c && (TEXTPOS = 0), curr = b.eq(TEXTPOS), curr.addClass("kwordmarked"), $(window).scrollTo(curr, {
             axis: "y",
             offset: -150
         }), a = "", "undefined" != typeof curr.attr("data_ann") && (a = curr.attr("data_ann")), window.parent.frames.ro.location.href = "show_word.php?wid=" + curr.attr("data_wid") +

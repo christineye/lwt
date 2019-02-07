@@ -275,13 +275,13 @@ function word_click_event_do_test_test() {
 }
 
 function keydown_event_do_test_test(e) {
-	if (e.which == 32 && OPENED == 0) {  // space : show sol.
-		$('.word').click();
-		cClick();
-		window.parent.frames['ro'].location.href = 'show_word.php?wid=' + $('.word').attr('data_wid') + '&ann=';
-		OPENED = 1;
-		return false;
-	}
+	// if (e.which == 32 && OPENED == 0) {  // space : show sol.
+		// $('.word').click();
+		// cClick();
+		// window.parent.frames['ro'].location.href = 'show_word.php?wid=' + $('.word').attr('data_wid') + '&ann=';
+		// OPENED = 1;
+		// return false;
+	// }
 	if (OPENED == 0) return true;
 	if (e.which == 38) {  // up : status+1
 		window.parent.frames['ro'].location.href = 
@@ -629,7 +629,7 @@ function keydown_event_do_text_text(e) {
 		window.parent.frames['ro'].location.href = 'show_word.php?wid=' + curr.attr('data_wid') + '&ann=' + encodeURIComponent(ann);
 		return false;
 	}
-	if (e.which == 39 || e.which == 32) {  // space /right : known word navigation
+	if (e.which == 39) {  // right : known word navigation
 		$('span.kwordmarked').removeClass('kwordmarked');
 		TEXTPOS++;
 		if (TEXTPOS >= l_knownwordlist) TEXTPOS = 0;

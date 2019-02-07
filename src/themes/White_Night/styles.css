@@ -254,14 +254,7 @@ background-image: radial-gradient(ellipse farthest-corner at center, #66CC66 50%
 .nword{
 	background-color: #000;
 }
-#thetext {
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-}
+
 .todosty {border-radius: 3px;padding: 1px 2px;
     /* IE10 Consumer Preview */ 
 background-image: -ms-radial-gradient(center, ellipse farthest-corner, #fbdb89 50%, #F5E1A9 100%);
