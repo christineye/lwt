@@ -149,7 +149,7 @@ if (isset($_REQUEST['op'])) {
 				fseek($temp, 0);
 				fclose($temp);
 			}
-			$sql= 'LOAD DATA LOCAL INFILE '. convert_string_to_sqlsyntax($file_name);
+			$sql= 'LOAD DATA INFILE '. convert_string_to_sqlsyntax($file_name);
 			//$sql.= ($overwrite)?' REPLACE':(' IGNORE') ;
 			if($fields["tl"]==0 and $overwrite==0){
 				$sql.= ' IGNORE INTO TABLE ' . $tbpref . 'words ' . $tabs . $columns ;
