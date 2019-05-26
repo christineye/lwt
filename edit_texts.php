@@ -61,17 +61,17 @@ $currentsort = processDBParam("sort",'currenttextsort','1',1);
 
 $currentpage = processSessParam("page","currenttextpage",'1',1);
 $currentquery = processSessParam("query","currenttextquery",'',0);
-$currentquerymode = processSessParam("query_mode","currenttextquerymode",'title,text',0);
+$currentquerymode = processSessParam("query_mode","currenttextquerymode",'title,text,link',0);
 $currentregexmode = getSettingWithDefault("set-regex-mode");
 $currenttag1 = validateTextTag(processSessParam("tag1","currenttexttag1",'',0),$currentlang);
 $currenttag2 = validateTextTag(processSessParam("tag2","currenttexttag2",'',0),$currentlang);
 $currenttag12 = processSessParam("tag12","currenttexttag12",'',0);
 
 $wh_lang = ($currentlang != '') ? (' and TxLgID=' . $currentlang) : '';
-$wh_query = $currentregexmode . 'like ' .  convert_string_to_sqlsyntax(($currentregexmode == '') ? (str_replace("*","%",mb_strtolower($currentquery, 'UTF-8'))) : ($currentquery));
+$wh_query = $currentregexmode . 'like ' .  convert_string_to_sqlsyntax(($currentregexmode == '') ? ("%" . mb_strtolower($currentquery, 'UTF-8') . "%") : ($currentquery));
 switch($currentquerymode){
-	case 'title,text':
-		$wh_query=' and (TxTitle ' . $wh_query . ' or TxText ' . $wh_query . ')';
+	case 'title,text,link':
+		$wh_query=' and (TxTitle ' . $wh_query . ' or TxText ' . $wh_query  . 'or TxSourceURI ' . $wh_query . ')';
 		break;
 	case 'title':
 		$wh_query=' and (TxTitle ' . $wh_query . ')';
@@ -521,7 +521,7 @@ Language:
 </td>
 <td class="td1 center" colspan="2">
 <select name="query_mode" onchange="{val=document.form1.query.value;mode=document.form1.query_mode.value; location.href='edit_texts.php?page=1&amp;query=' + val + '&amp;query_mode=' + mode;}">
-<option value="title,text"<?php if($currentquerymode=="title,text")echo ' selected="selected"'; ?>>Title &amp; Text</option>
+<option value="title,text,link"<?php if($currentquerymode=="title,text")echo ' selected="selected"'; ?>>Title, Text, Link</option>
 <option disabled="disabled">------------</option>
 <option value="title"<?php if($currentquerymode=="title")echo ' selected="selected"'; ?>>Title</option>
 <option value="text"<?php if($currentquerymode=="text")echo ' selected="selected"'; ?>>Text</option>

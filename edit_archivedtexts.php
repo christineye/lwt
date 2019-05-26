@@ -64,7 +64,7 @@ $wh_lang = ($currentlang != '') ? (' and AtLgID=' . $currentlang) : '';
 $wh_query = $currentregexmode . 'like ' .  convert_string_to_sqlsyntax(($currentregexmode == '') ? (str_replace("*","%",mb_strtolower($currentquery, 'UTF-8'))) : ($currentquery));
 switch($currentquerymode){
 	case 'title,text':
-		$wh_query=' and (AtTitle ' . $wh_query . ' or AtText ' . $wh_query . ')';
+		$wh_query=' and (AtTitle ' . $wh_query . ' or AtText ' . $wh_query . ' or AtSourceURI ' . $wh_query . ')';
 		break;
 	case 'title':
 		$wh_query=' and (AtTitle ' . $wh_query . ')';
@@ -336,7 +336,7 @@ Language:
 </td>
 <td class="td1 center" colspan="2">
 <select name="query_mode" onchange="{val=document.form1.query.value;mode=document.form1.query_mode.value; location.href='edit_archivedtexts.php?page=1&amp;query=' + val + '&amp;query_mode=' + mode;}">
-<option value="title,text"<?php if($currentquerymode=="title,text")echo ' selected="selected"'; ?>>Title &amp; Text</option>
+<option value="title,text,link"<?php if($currentquerymode=="title,text")echo ' selected="selected"'; ?>>Title, Text, LInk</option>
 <option disabled="disabled">------------</option>
 <option value="title"<?php if($currentquerymode=="title")echo ' selected="selected"'; ?>>Title</option>
 <option value="text"<?php if($currentquerymode=="text")echo ' selected="selected"'; ?>>Text</option>

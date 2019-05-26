@@ -601,12 +601,12 @@ function getPreviousAndNextTextLinks($textid,$url,$onlyann,$add) {
 	$wh_lang = ($currentlang != '') ? (' and TxLgID=' . $currentlang) : '';
 
 	$currentquery = processSessParam("query","currenttextquery",'',0);
-	$currentquerymode = processSessParam("query_mode","currenttextquerymode",'title,text',0);
+	$currentquerymode = processSessParam("query_mode","currenttextquerymode",'title,text,link',0);
 	$currentregexmode = getSettingWithDefault("set-regex-mode");
-	$wh_query = $currentregexmode . 'like ' .  convert_string_to_sqlsyntax(($currentregexmode == '') ? (str_replace("*","%",mb_strtolower($currentquery, 'UTF-8'))) : ($currentquery));
+	$wh_query = $currentregexmode . 'like ' .  convert_string_to_sqlsyntax(($currentregexmode == '') ? ("%" . mb_strtolower($currentquery, 'UTF-8') . "%") : ($currentquery));
 	switch($currentquerymode){
-		case 'title,text':
-			$wh_query=' and (TxTitle ' . $wh_query . ' or TxText ' . $wh_query . ')';
+		case 'title,text,link':
+			$wh_query=' and (TxTitle ' . $wh_query . ' or TxText ' . $wh_query . ' or TxSourceURI ' . $wh_query . ')';
 			break;
 		case 'title':
 			$wh_query=' and (TxTitle ' . $wh_query . ')';
