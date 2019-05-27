@@ -240,7 +240,7 @@ if (isset($_REQUEST["action"])) {  // Action
 		
 		<h1><?php echo tohtml($texttitle); ?></h1>
         <br /><a href="<?php echo $sourceuri; ?>"><?php echo $sourceuri; ?></a></li>
-        <?php echo getPreviousAndNextTextLinks($textid, 'mobile.php?action=3&text=', FALSE, '&nbsp; | &nbsp;'); ?>
+        <?php echo getPreviousAndNextTextLinks($text, 'mobile.php?action=3&text=', FALSE, '&nbsp; | &nbsp;'); ?>
 		
         <br />
         <?php echo getTextTags($text); ?>
