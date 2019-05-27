@@ -135,7 +135,10 @@ $data_trans=$ann_exists?'data_ann':'data_trans';
 $pseudo_element=($mode_trans<3)?'after':'before';
 $ruby=($mode_trans==2 || $mode_trans==4)?1:0;
 $displaystattrans=getSettingWithDefault('set-display-text-frame-term-translation');
-echo "<style>\n";
+echo "<style>.t1  { border-bottom: 5px solid rgba(252,199,189,.8); } .t2  { border-bottom: 5px solid rgba(252, 230, 176, .8); } .t3  {border-bottom: 5px solid rgba(188, 252, 176, .8); } .t4  { border-bottom: 5px solid rgba(176, 246, 252, .8); } .t1.status1, .status1 .t1 { background-color: #fcc7bd; } .t2.status1, .status1 .t2 { background-color: #fce6b0; } .t3.status1, .status1 .t3 { background-color: #bcfcb0; } .t4.status1, .status1 .t4 { background-color: #b0f6fc; } .mword:after {margin-top:10px;}\n";
+
+
+
 $stat_arr = array(1,2,3,4,5,98,99);
 foreach ($stat_arr as $value) {
 	if(checkStatusRange($value, $displaystattrans))echo '.wsty.status',$value,':',$pseudo_element,',.tword.content',$value,':',$pseudo_element,'{content: attr(',$data_trans,');}',"\n",'.tword.content',$value,':',$pseudo_element,'{color:rgba(0,0,0,0)}',"\n";
@@ -209,7 +212,42 @@ while ($record = mysqli_fetch_assoc($res)) {  // MAIN LOOP
 					}
 				}
 								
-?><span id="<?php echo $spanid; ?>" class="<?php echo $hidetag; ?> click mword <?php echo ($showAll ? 'mwsty' : 'wsty'); ?> <?php echo 'order'. $record['TiOrder']; ?> <?php echo 'word'. $record['WoID']; ?> <?php echo 'status'. $record['WoStatus']; ?> TERM<?php echo strToClassName($record['TiTextLC']); ?>" data_pos="<?php echo $currcharcount; ?>" data_order="<?php echo $record['TiOrder']; ?>" data_wid="<?php echo $record['WoID']; ?>" data_trans="<?php echo tohtml(repl_tab_nl("["                                                  . $record['WoRomanization'] . "] " .$record['WoTranslation'])); ?>" data_rom="<?php echo tohtml($record['WoRomanization']); ?>" data_status="<?php echo $record['WoStatus']; ?>"  data_code="<?php echo $record['Code']; ?>" data_text="<?php echo tohtml($record['TiText']); ?>"><?php echo ($showAll ? ('&nbsp;' . $record['Code'] . '&nbsp;') : tohtml($record['TiText'])); ?></span><?php	
+?><span id="<?php echo $spanid; ?>" class="<?php echo $hidetag; ?> click mword <?php echo ($showAll ? 'mwsty' : 'wsty'); ?> <?php echo 'order'. $record['TiOrder']; ?> <?php echo 'word'. $record['WoID']; ?> <?php echo 'status'. $record['WoStatus']; ?> TERM<?php echo strToClassName($record['TiTextLC']); ?>" data_pos="<?php echo $currcharcount; ?>" data_order="<?php echo $record['TiOrder']; ?>" data_wid="<?php echo $record['WoID']; ?>" data_trans="<?php echo tohtml(repl_tab_nl("["                                                  . $record['WoRomanization'] . "] " .$record['WoTranslation'])); ?>" data_rom="<?php echo tohtml($record['WoRomanization']); ?>" data_status="<?php echo $record['WoStatus']; ?>"  data_code="<?php echo $record['Code']; ?>" data_text="<?php echo tohtml($record['TiText']); ?>"><?php 
+
+if ($showAll)
+{
+	echo '&nbsp;' . $record['Code'] . '&nbsp;';
+}
+else
+{
+	$chrArray = preg_split('//u', $record['TiText'], -1, PREG_SPLIT_NO_EMPTY);
+	$pinyins = explode(" ", $record['WoRomanization']);
+	
+	foreach($chrArray as $i => $item) {
+			$tone = 0;
+			
+			if (preg_match("/[āēīōūǖĀĒĪŌŪǕ1]/u",$pinyins[$i] ))
+			{
+				$tone = 1;
+			}
+			else if (preg_match("/[áéíóúǘÁÉÍÓÚǗ2]/u", $pinyins[$i]))
+			{
+				$tone = 2;
+			}
+			else if (preg_match("/[ǎěǐǒǔǚǍĚǏǑǓǙ3]/u", $pinyins[$i]))
+			{
+				$tone = 3;
+			}
+			else if (preg_match("/[àèìòùǜÀÈÌÒÙǛ4]/u", $pinyins[$i]))
+			{
+				$tone = 4;
+			}
+			
+	echo "<span class='t" . $tone . "'>" . $item . "</span>";
+	}
+}
+
+?></span><?php	
 
 			}
 						
@@ -221,7 +259,26 @@ while ($record = mysqli_fetch_assoc($res)) {  // MAIN LOOP
 		
 			if (isset($record['WoID'])) {  // WORD FOUND STATUS 1-5,98,99
 
-?><span id="<?php echo $spanid; ?>" class="<?php echo $hidetag; ?> click word wsty <?php echo 'word'. $record['WoID']; ?> <?php echo 'status'. $record['WoStatus']; ?> TERM<?php echo strToClassName($record['TiTextLC']); ?>" data_pos="<?php echo $currcharcount; ?>" data_order="<?php echo $record['TiOrder']; ?>" data_wid="<?php echo $record['WoID']; ?>" data_trans="<?php echo tohtml(repl_tab_nl( "[". $record['WoRomanization'] . "] " . $record['WoTranslation'])); ?>" data_rom="<?php echo tohtml($record['WoRomanization']); ?>" data_status="<?php echo $record['WoStatus']; ?>"><?php echo tohtml($record['TiText']); ?></span><?php	
+			$tone = 0;
+			
+			if (preg_match("/[āēīōūǖĀĒĪŌŪǕ1]/u", $record['WoRomanization']))
+			{
+				$tone = 1;
+			}
+			else if (preg_match("/[áéíóúǘÁÉÍÓÚǗ2]/u", $record['WoRomanization']))
+			{
+				$tone = 2;
+			}
+			else if (preg_match("/[ǎěǐǒǔǚǍĚǏǑǓǙ3]/u", $record['WoRomanization']))
+			{
+				$tone = 3;
+			}
+			else if (preg_match("/[àèìòùǜÀÈÌÒÙǛ4]/u", $record['WoRomanization']))
+			{
+				$tone = 4;
+			}
+
+?><span id="<?php echo $spanid; ?>" class="<?php echo $hidetag; ?> click word wsty <?php echo 'word'. $record['WoID']; ?> <?php echo 't' . $tone . ' status'. $record['WoStatus']; ?> TERM<?php echo strToClassName($record['TiTextLC']); ?>" data_pos="<?php echo $currcharcount; ?>" data_order="<?php echo $record['TiOrder']; ?>" data_wid="<?php echo $record['WoID']; ?>" data_trans="<?php echo tohtml(repl_tab_nl( "[". $record['WoRomanization'] . "] " . $record['WoTranslation'])); ?>" data_rom="<?php echo tohtml($record['WoRomanization']); ?>" data_status="<?php echo $record['WoStatus']; ?>"><?php echo tohtml($record['TiText']); ?></span><?php	
 
 			}   // WORD FOUND STATUS 1-5,98,99
 			

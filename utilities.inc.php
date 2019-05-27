@@ -1565,7 +1565,8 @@ function convert_regexp_to_sqlsyntax ($input) {
 
 function remove_spaces($s,$remove) {
 	if ($remove) 
-		return str_replace(' ', '', $s);  // '' enthält &#x200B;
+		return preg_replace('/ ([^a-zA-Z0-9])/u', "$1 ", $s);
+		// return str_replace(' ', '', $s);  // '' enthält &#x200B;
 	else
 		return $s;
 }
@@ -3284,7 +3285,7 @@ function splitCheckText($text, $lid, $id) {
 		$s = str_replace("\n", " ¶", $s);
 		$s = trim($s);
 		if ($splitEachChar) {
-			$s = preg_replace('/([^\s])/u', "$1\t", $s);
+			$s = preg_replace('/([^\sA-Z])/u', "$1\t", $s);
 		}
 		$s = preg_replace('/\s+/u', ' ', $s);
 		if ($id == -1) echo "<div id=\"check_text\" style=\"margin-right:50px;\"><h4>Text</h4><p " .  ($rtlScript ? 'dir="rtl"' : '') . ">" . str_replace("¶", "<br /><br />", tohtml($s)). "</p>";

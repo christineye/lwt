@@ -110,33 +110,24 @@ if (isset($_REQUEST["action"])) {  // Action
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 <style type="text/css" media="screen">
-@import "./iui/iui.css";
-span.status1 {
-	background-color: #F5B8A9;
-}
-span.status2 {
-	background-color: #F5CCA9;
-}
-span.status3 {
-	background-color: #F5E1A9;
-}
-span.status4 {
-	background-color: #F5F3A9;
-}
-span.status5 {
-	background-color: #DDFFDD;
-}
 
-.word, .mword
+@import "./iui/iui.css";
+
+.t1  { border-bottom: 5px solid rgba(252,199,189,.8); } .t2  { border-bottom: 5px solid rgba(252, 230, 176, .8); } .t3  {border-bottom: 5px solid rgba(188, 252, 176, .8); } .t4  { border-bottom: 5px solid rgba(176, 246, 252, .8); } .t1.status1, .status1 .t1 { background-color: #fcc7bd; } .t2.status1, .status1 .t2 { background-color: #fce6b0; } .t3.status1, .status1 .t3 { background-color: #bcfcb0; } .t4.status1, .status1 .t4 { background-color: #b0f6fc; } .mword:after {margin-top:10px;}
+#thetext{
+   font-size: 32px;
+   font-weight: 400;
+       font-family:  "Lucida Grande",Arial,"Microsoft YaHei", mingLiu;
+}
+.wsty
 {
     display: inline-block;
     position: relative;
-    max-width: 240px;
-    text-align: center;
-    font-size: 26px;
+    max-width: 400px;
+    text-align: center; 
     margin-right: 5px;
-    font-weight: bold;
     vertical-align: top;
+    margin-bottom: 5px;
 }
 :after
 {
@@ -145,7 +136,7 @@ span.status5 {
     overflow-x: hidden;
     font-size: 14px;
     font-weight: normal;
-    max-width: 240px !important;
+    max-width: 400px !important;
 }
 
 .texttags span
@@ -153,6 +144,13 @@ span.status5 {
     color: #888;
     margin-right: 10px;
 }
+
+
+.wsty.status1:after,.tword.content1:after{content: attr(data_trans);}
+.tword.content1:after{color:rgba(0,0,0,0)}
+.tword:after,.wsty:after{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;display:inline-block;vertical-align:-25%;}
+.hide{display:none !important;}.tword:after,.wsty:after{max-width:15em;}
+
 </style>
 
 </head>
@@ -238,15 +236,15 @@ if (isset($_REQUEST["action"])) {  // Action
 
 		?>
 
-		<ul id="<?php echo $action . '-' . $text; ?>" title="<?php echo tohtml($texttitle); ?>" selected="true">
-		<li class="group">Title</li>
-		<li><?php echo tohtml($texttitle); ?>
+		
+		
+		<h1><?php echo tohtml($texttitle); ?></h1>
         <br /><a href="<?php echo $sourceuri; ?>"><?php echo $sourceuri; ?></a></li>
-        
-        <li class="group">Tags:</li>
-        <li>
+        <?php echo getPreviousAndNextTextLinks($textid, 'mobile.php?action=3&text=', FALSE, '&nbsp; | &nbsp;'); ?>
+		
+        <br />
         <?php echo getTextTags($text); ?>
-        </li>
+   
 		<?php
 
 		if (isset($textaudio) && trim($textaudio) != '') {
@@ -256,7 +254,7 @@ if (isset($_REQUEST["action"])) {  // Action
 
         
 		<li class="group">Audio</li>
-		<li>Play: <audio src="<?php echo trim($textaudio); ?>" controls></audio></li>
+		Play: <audio src="<?php echo trim($textaudio); ?>" controls></audio>
 
 		<?php
 
@@ -264,7 +262,7 @@ if (isset($_REQUEST["action"])) {  // Action
 
 		?>
 
-		<li class="group">Text</li>
+		<hr />
 
 		<?php
 		
@@ -286,9 +284,9 @@ foreach ($stat_arr as $value) {
 	if(checkStatusRange($value, $displaystattrans))echo '.wsty.status',$value,':',$pseudo_element,',.tword.content',$value,':',$pseudo_element,'{content: attr(',$data_trans,');}',"\n",'.tword.content',$value,':',$pseudo_element,'{color:rgba(0,0,0,0)}',"\n";
 }
 if($ruby){echo '.wsty {',($mode_trans==4?'margin-top: 0.2em;':'margin-bottom: 0.2em;'),'text-align: center;display: inline-block;',($mode_trans==2?'vertical-align: top;':''),'}',"\n";}
-if($ruby)echo '.wsty:',$pseudo_element,'{display: block !important;',($mode_trans==2?'margin-top: -0.05em;':'margin-bottom:  -0.15em;'),'}',"\n";
+if($ruby)echo '.wsty:',$pseudo_element,'{display: block !important;',($mode_trans==2?'margin-top: -0.05em;':'margin-bottom:         -0.15em;'),'}',"\n";
 $ann_textsize=array(100 => 50, 150 => 50,200 => 40, 250 => 25);
-echo '.tword:',$pseudo_element,',.wsty:',$pseudo_element,'{',($ruby?'text-align: center;':''),'font-size:' . $ann_textsize[$textsize] . '%;',($mode_trans==1?'margin-left: 0.2em;':''),($mode_trans==3?'margin-right: 0.2em;':''),($ann_exists?'':'overflow:hidden;white-space:nowrap;text-overflow:ellipsis;display:inline-block;vertical-align:-25%;'),'}',"\n",'.hide{display:none !important;}.tword:',$pseudo_element,($ruby?',.word:':',.wsty:'),$pseudo_element,'{max-width:15em;}</style>';
+echo '.tword:',$pseudo_element,',.wsty:',$pseudo_element,'{',($ruby?'text-align: center;':''),($mode_trans==1?'margin-left: 0.2em;':''),($mode_trans==3?'margin-right: 0.2em;':''),($ann_exists?'':'overflow:hidden;white-space:nowrap;text-overflow:ellipsis;display:inline-block;vertical-align:-25%;'),'}',"\n",'.hide{display:none !important;}.tword:',$pseudo_element,($ruby?',.word:':',.wsty:'),$pseudo_element,'{max-width:15em;}</style>';
 
 echo '<div id="thetext" ' .  ($rtlScript ? 'dir="rtl"' : '') . '><p style="' . ($removeSpaces ? 'word-break:break-all;' : '') . 
 'font-size:' . $textsize . '%;line-height: ',($ruby?'1':'1.4'),'; margin-bottom: 10px;">';
@@ -354,7 +352,42 @@ while ($record = mysqli_fetch_assoc($res)) {  // MAIN LOOP
 					}
 				}
 								
-?><span id="<?php echo $spanid; ?>" class="<?php echo $hidetag; ?> click mword <?php echo ($showAll ? 'mwsty' : 'wsty'); ?> <?php echo 'order'. $record['TiOrder']; ?> <?php echo 'word'. $record['WoID']; ?> <?php echo 'status'. $record['WoStatus']; ?> TERM<?php echo strToClassName($record['TiTextLC']); ?>" data_pos="<?php echo $currcharcount; ?>" data_order="<?php echo $record['TiOrder']; ?>" data_wid="<?php echo $record['WoID']; ?>" data_trans="<?php echo tohtml(repl_tab_nl("["                                                  . $record['WoRomanization'] . "] " .$record['WoTranslation'])); ?>" data_rom="<?php echo tohtml($record['WoRomanization']); ?>" data_status="<?php echo $record['WoStatus']; ?>"  data_code="<?php echo $record['Code']; ?>" data_text="<?php echo tohtml($record['TiText']); ?>"><?php echo ($showAll ? ('&nbsp;' . $record['Code'] . '&nbsp;') : tohtml($record['TiText'])); ?></span><?php	
+?><span id="<?php echo $spanid; ?>" class="<?php echo $hidetag; ?> click mword <?php echo ($showAll ? 'mwsty' : 'wsty'); ?> <?php echo 'order'. $record['TiOrder']; ?> <?php echo 'word'. $record['WoID']; ?> <?php echo 'status'. $record['WoStatus']; ?> TERM<?php echo strToClassName($record['TiTextLC']); ?>" data_pos="<?php echo $currcharcount; ?>" data_order="<?php echo $record['TiOrder']; ?>" data_wid="<?php echo $record['WoID']; ?>" data_trans="<?php echo tohtml(repl_tab_nl("["                                                  . $record['WoRomanization'] . "] " .$record['WoTranslation'])); ?>" data_rom="<?php echo tohtml($record['WoRomanization']); ?>" data_status="<?php echo $record['WoStatus']; ?>"  data_code="<?php echo $record['Code']; ?>" data_text="<?php echo tohtml($record['TiText']); ?>"><?php 
+
+if ($showAll)
+{
+	echo '&nbsp;' . $record['Code'] . '&nbsp;';
+}
+else
+{
+	$chrArray = preg_split('//u', $record['TiText'], -1, PREG_SPLIT_NO_EMPTY);
+	$pinyins = explode(" ", $record['WoRomanization']);
+	
+	foreach($chrArray as $i => $item) {
+			$tone = 0;
+			
+			if (preg_match("/[āēīōūǖĀĒĪŌŪǕ1]/u",$pinyins[$i] ))
+			{
+				$tone = 1;
+			}
+			else if (preg_match("/[áéíóúǘÁÉÍÓÚǗ2]/u", $pinyins[$i]))
+			{
+				$tone = 2;
+			}
+			else if (preg_match("/[ǎěǐǒǔǚǍĚǏǑǓǙ3]/u", $pinyins[$i]))
+			{
+				$tone = 3;
+			}
+			else if (preg_match("/[àèìòùǜÀÈÌÒÙǛ4]/u", $pinyins[$i]))
+			{
+				$tone = 4;
+			}
+			
+	echo "<span class='t" . $tone . "'>" . $item . "</span>";
+	}
+}
+
+ ?></span><?php	
 
 			}
 						
@@ -365,8 +398,28 @@ while ($record = mysqli_fetch_assoc($res)) {  // MAIN LOOP
 		else {  // ($actcode == 1)  -- A WORD FOUND
 		
 			if (isset($record['WoID'])) {  // WORD FOUND STATUS 1-5,98,99
+			
+			$tone = 0;
+			
+			if (preg_match("/[āēīōūǖĀĒĪŌŪǕ1]/u", $record['WoRomanization']))
+			{
+				$tone = 1;
+			}
+			else if (preg_match("/[áéíóúǘÁÉÍÓÚǗ2]/u", $record['WoRomanization']))
+			{
+				$tone = 2;
+			}
+			else if (preg_match("/[ǎěǐǒǔǚǍĚǏǑǓǙ3]/u", $record['WoRomanization']))
+			{
+				$tone = 3;
+			}
+			else if (preg_match("/[àèìòùǜÀÈÌÒÙǛ4]/u", $record['WoRomanization']))
+			{
+				$tone = 4;
+			}
+				
 
-?><span id="<?php echo $spanid; ?>" class="<?php echo $hidetag; ?> click word wsty <?php echo 'word'. $record['WoID']; ?> <?php echo 'status'. $record['WoStatus']; ?> TERM<?php echo strToClassName($record['TiTextLC']); ?>" data_pos="<?php echo $currcharcount; ?>" data_order="<?php echo $record['TiOrder']; ?>" data_wid="<?php echo $record['WoID']; ?>" data_trans="<?php echo tohtml(repl_tab_nl( "[". $record['WoRomanization'] . "] " . $record['WoTranslation'])); ?>" data_rom="<?php echo tohtml($record['WoRomanization']); ?>" data_status="<?php echo $record['WoStatus']; ?>"><?php echo tohtml($record['TiText']); ?></span><?php	
+?><span id="<?php echo $spanid; ?>" class="<?php echo $hidetag; ?> click word wsty <?php echo 'word'. $record['WoID']; ?> <?php echo 't'. $tone . ' status'. $record['WoStatus']; ?> TERM<?php echo strToClassName($record['TiTextLC']); ?>" data_pos="<?php echo $currcharcount; ?>" data_order="<?php echo $record['TiOrder']; ?>" data_wid="<?php echo $record['WoID']; ?>" data_trans="<?php echo tohtml(repl_tab_nl( "[". $record['WoRomanization'] . "] " . $record['WoTranslation'])); ?>" data_rom="<?php echo tohtml($record['WoRomanization']); ?>" data_status="<?php echo $record['WoStatus']; ?>"><?php echo tohtml($record['TiText']) ?></span><?php	
 
 			}   // WORD FOUND STATUS 1-5,98,99
 			
@@ -390,7 +443,6 @@ while ($record = mysqli_fetch_assoc($res)) {  // MAIN LOOP
 
 		?>
 		
-		</ul>
 
 		<?php
 		
