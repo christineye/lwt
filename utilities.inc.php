@@ -615,6 +615,7 @@ function getPreviousAndNextTextLinks($textid,$url,$onlyann,$add) {
 			$wh_query=' and (TxText ' . $wh_query . ')';
 			break;
 	}
+ 
 	if($currentquery=='') $wh_query = '';
 
 	$currenttag1 = validateTextTag(processSessParam("tag1","currenttexttag1",'',0),$currentlang);
@@ -655,6 +656,7 @@ function getPreviousAndNextTextLinks($textid,$url,$onlyann,$add) {
 		$sql = 'select TxID from ((' . $tbpref . 'texts left JOIN ' . $tbpref . 'texttags ON TxID = TtTxID) left join ' . $tbpref . 'tags2 on T2ID = TtT2ID), ' . $tbpref . 'languages where LgID = TxLgID ' . $wh_lang . $wh_query . ' group by TxID ' . $wh_tag . ' order by ' . $sorts[$currentsort-1];
 
 	$list = array(0);
+	
 	$res = do_mysqli_query($sql);
 	while ($record = mysqli_fetch_assoc($res)) {
 		array_push($list, ($record['TxID']+0));
@@ -3285,7 +3287,7 @@ function splitCheckText($text, $lid, $id) {
 		$s = str_replace("\n", " ¶", $s);
 		$s = trim($s);
 		if ($splitEachChar) {
-			$s = preg_replace('/([^\sA-Z])/u', "$1\t", $s);
+			$s = preg_replace('/([^\sA-Za-z0-9])/u', "$1\t", $s);
 		}
 		$s = preg_replace('/\s+/u', ' ', $s);
 		if ($id == -1) echo "<div id=\"check_text\" style=\"margin-right:50px;\"><h4>Text</h4><p " .  ($rtlScript ? 'dir="rtl"' : '') . ">" . str_replace("¶", "<br /><br />", tohtml($s)). "</p>";

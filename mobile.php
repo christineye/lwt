@@ -113,7 +113,7 @@ if (isset($_REQUEST["action"])) {  // Action
 
 @import "./iui/iui.css";
 
-.t1  { border-bottom: 5px solid rgba(252,199,189,.8); } .t2  { border-bottom: 5px solid rgba(252, 230, 176, .8); } .t3  {border-bottom: 5px solid rgba(188, 252, 176, .8); } .t4  { border-bottom: 5px solid rgba(176, 246, 252, .8); } .t1.status1, .status1 .t1 { background-color: #fcc7bd; } .t2.status1, .status1 .t2 { background-color: #fce6b0; } .t3.status1, .status1 .t3 { background-color: #bcfcb0; } .t4.status1, .status1 .t4 { background-color: #b0f6fc; } .mword:after {margin-top:10px;}
+.t1  { border-bottom: 5px solid rgba(252,199,189,.8); } .t2  { border-bottom: 5px solid rgba(252, 230, 176, .8); } .t3  {border-bottom: 5px solid rgba(188, 252, 176, .8); } .t4  { border-bottom: 5px solid rgba(176, 246, 252, .8); } .t1.s1, .s1 .t1 { background-color: #fcc7bd; } .t2.s1, .s1 .t2 { background-color: #fce6b0; } .t3.s1, .s1 .t3 { background-color: #bcfcb0; } .t4.s1, .s1 .t4 { background-color: #b0f6fc; } .mword:after {margin-top:10px;}
 #thetext{
    font-size: 32px;
    font-weight: 400;
@@ -145,11 +145,26 @@ if (isset($_REQUEST["action"])) {  // Action
     margin-right: 10px;
 }
 
-
-.wsty.status1:after,.tword.content1:after{content: attr(data_trans);}
 .tword.content1:after{color:rgba(0,0,0,0)}
 .tword:after,.wsty:after{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;display:inline-block;vertical-align:-25%;}
 .hide{display:none !important;}.tword:after,.wsty:after{max-width:15em;}
+
+
+
+<?php
+
+$sql = 'select distinct WoID, WoText, WoStatus, WoTranslation, WoRomanization from (' . $tbpref . 'textitems2 left join ' . $tbpref . 'words on (Ti2WoID = WoID)) where Ti2TxID = ' . $_REQUEST['text'];
+
+$res = do_mysqli_query($sql);
+while ($record = mysqli_fetch_assoc($res)) {  // MAIN LOOP
+
+	if ($record['WoStatus'] == 1)
+	{
+		echo ".w" . $record['WoID'] .  ":after{content: '" . "[" . $record['WoRomanization'] . ']' . str_replace("'", "\'", $record['WoTranslation']). "';}";
+	}
+	
+} // while ($record = mysql_fetch_assoc($res))  -- MAIN LOOP
+?>
 
 </style>
 
@@ -239,7 +254,7 @@ if (isset($_REQUEST["action"])) {  // Action
 		
 		
 		<h1><?php echo tohtml($texttitle); ?></h1>
-        <br /><a href="<?php echo $sourceuri; ?>"><?php echo $sourceuri; ?></a></li>
+        <br /><a class="source" href="<?php echo $sourceuri; ?>"><?php echo $sourceuri; ?></a></li>
         <?php echo getPreviousAndNextTextLinks($text, 'mobile.php?action=3&text=', FALSE, '&nbsp; | &nbsp;'); ?>
 		
         <br />
@@ -278,61 +293,54 @@ if (isset($_REQUEST["action"])) {  // Action
 $pseudo_element=($mode_trans<3)?'after':'before';
 $ruby=($mode_trans==2 || $mode_trans==4)?1:0;
 $displaystattrans=getSettingWithDefault('set-display-text-frame-term-translation');
-echo "<style>\n";
-$stat_arr = array(1,2,3,4,5,98,99);
-foreach ($stat_arr as $value) {
-	if(checkStatusRange($value, $displaystattrans))echo '.wsty.status',$value,':',$pseudo_element,',.tword.content',$value,':',$pseudo_element,'{content: attr(',$data_trans,');}',"\n",'.tword.content',$value,':',$pseudo_element,'{color:rgba(0,0,0,0)}',"\n";
-}
-if($ruby){echo '.wsty {',($mode_trans==4?'margin-top: 0.2em;':'margin-bottom: 0.2em;'),'text-align: center;display: inline-block;',($mode_trans==2?'vertical-align: top;':''),'}',"\n";}
-if($ruby)echo '.wsty:',$pseudo_element,'{display: block !important;',($mode_trans==2?'margin-top: -0.05em;':'margin-bottom:         -0.15em;'),'}',"\n";
-$ann_textsize=array(100 => 50, 150 => 50,200 => 40, 250 => 25);
-echo '.tword:',$pseudo_element,',.wsty:',$pseudo_element,'{',($ruby?'text-align: center;':''),($mode_trans==1?'margin-left: 0.2em;':''),($mode_trans==3?'margin-right: 0.2em;':''),($ann_exists?'':'overflow:hidden;white-space:nowrap;text-overflow:ellipsis;display:inline-block;vertical-align:-25%;'),'}',"\n",'.hide{display:none !important;}.tword:',$pseudo_element,($ruby?',.word:':',.wsty:'),$pseudo_element,'{max-width:15em;}</style>';
+// echo "<style>\n";
+// $stat_arr = array(1,2,3,4,5,98,99);
+// foreach ($stat_arr as $value) {
+	// if(checkStatusRange($value, $displaystattrans))echo '.wsty.status',$value,':',$pseudo_element,',.tword.content',$value,':',$pseudo_element,'{content: attr(',$data_trans,');}',"\n",'.tword.content',$value,':',$pseudo_element,'{color:rgba(0,0,0,0)}',"\n";
+// }
+// if($ruby){echo '.wsty {',($mode_trans==4?'margin-top: 0.2em;':'margin-bottom: 0.2em;'),'text-align: center;display: inline-block;',($mode_trans==2?'vertical-align: top;':''),'}',"\n";}
+// if($ruby)echo '.wsty:',$pseudo_element,'{display: block !important;',($mode_trans==2?'margin-top: -0.05em;':'margin-bottom:         -0.15em;'),'}',"\n";
+// $ann_textsize=array(100 => 50, 150 => 50,200 => 40, 250 => 25);
+// echo '.tword:',$pseudo_element,',.wsty:',$pseudo_element,'{',($ruby?'text-align: center;':''),($mode_trans==1?'margin-left: 0.2em;':''),($mode_trans==3?'margin-right: 0.2em;':''),($ann_exists?'':'overflow:hidden;white-space:nowrap;text-overflow:ellipsis;display:inline-block;vertical-align:-25%;'),'}',"\n",'.hide{display:none !important;}.tword:',$pseudo_element,($ruby?',.word:':',.wsty:'),$pseudo_element,'{max-width:15em;}</style>';
 
 echo '<div id="thetext" ' .  ($rtlScript ? 'dir="rtl"' : '') . '><p style="' . ($removeSpaces ? 'word-break:break-all;' : '') . 
-'font-size:' . $textsize . '%;line-height: ',($ruby?'1':'1.4'),'; margin-bottom: 10px;">';
+'line-height: ',($ruby?'1':'1.4'),'; margin-bottom: 10px;">';
 
 $currcharcount = 0;
 
 $sql = 'select CASE WHEN `Ti2WordCount`>0 THEN Ti2WordCount ELSE 1 END as Code, CASE WHEN CHAR_LENGTH(Ti2Text)>0 THEN Ti2Text ELSE `WoText` END as TiText, CASE WHEN CHAR_LENGTH(Ti2Text)>0 THEN lower(Ti2Text) ELSE `WoTextLC` END as TiTextLC, Ti2Order as TiOrder,Ti2SeID as TiSeID,CASE WHEN `Ti2WordCount`>0 THEN 0 ELSE 1 END as TiIsNotWord, CASE WHEN CHAR_LENGTH(Ti2Text)>0 THEN CHAR_LENGTH(Ti2Text) ELSE CHAR_LENGTH(`WoTextLC`) END as TiTextLength, WoID, WoText, WoStatus, WoTranslation, WoRomanization from (' . $tbpref . 'textitems2 left join ' . $tbpref . 'words on (Ti2WoID = WoID)) where Ti2TxID = ' . $_REQUEST['text'] . ' order by Ti2Order asc, Ti2WordCount desc';
 
 $hideuntil = -1;
-$hidetag = '';
+$hidetag = false;
 $cnt = 1;
 $sid = 0;
 
 $res = do_mysqli_query($sql);
 
 while ($record = mysqli_fetch_assoc($res)) {  // MAIN LOOP
-	if($sid != $record['TiSeID']){
-		if($sid != 0){
-			echo '</span>';
-		}
-		$sid = $record['TiSeID'];
-		echo '<span id="sent_',$sid,'">';
-	}
+	
 	$actcode = $record['Code'] + 0;
 	$spanid = 'ID-' . $record['TiOrder'] . '-' . $actcode;
 
 	if ( $hideuntil > 0  ) {
 		if ( $record['TiOrder'] <= $hideuntil )
-			$hidetag = ' hide';
+			$hidetag = true;
 		else {
 			$hideuntil = -1;
-			$hidetag = '';
+			$hidetag = false;
 		}
 	}				
 	
 	if($cnt<$record['TiOrder']){
-		echo '<span id="ID-' . $cnt++ . '-1"></span>';
+		$cnt++;
 	}
 	if ($record['TiIsNotWord'] != 0) {  // NOT A TERM
 	
-		echo '<span id="' . $spanid . '" class="' . 
-			$hidetag . '">' . 
+		echo  
 			str_replace(
 			"¶",
 			'<br />',
-			tohtml($record['TiText'])) . '</span>';
+			tohtml($record['TiText']));
 			
 	}  // $record['TiIsNotWord'] != 0  --  NOT A TERM
 	
@@ -344,7 +352,7 @@ while ($record = mysqli_fetch_assoc($res)) {  // MAIN LOOP
 		
 			//$titext[$actcode] = $record['TiText'];
 			
-			if (isset($record['WoID'])) {  // MULTIWORD FOUND - DISPLAY (Status 1-5, display)
+			if (isset($record['WoID']) and $record['WoStatus'] == 1) {  // MULTIWORD FOUND - DISPLAY (Status 1, display)
 			
 				if (! $showAll) {
 					if ($hideuntil == -1) {
@@ -352,7 +360,9 @@ while ($record = mysqli_fetch_assoc($res)) {  // MAIN LOOP
 					}
 				}
 								
-?><span id="<?php echo $spanid; ?>" class="<?php echo $hidetag; ?> click mword <?php echo ($showAll ? 'mwsty' : 'wsty'); ?> <?php echo 'order'. $record['TiOrder']; ?> <?php echo 'word'. $record['WoID']; ?> <?php echo 'status'. $record['WoStatus']; ?> TERM<?php echo strToClassName($record['TiTextLC']); ?>" data_pos="<?php echo $currcharcount; ?>" data_order="<?php echo $record['TiOrder']; ?>" data_wid="<?php echo $record['WoID']; ?>" data_trans="<?php echo tohtml(repl_tab_nl("["                                                  . $record['WoRomanization'] . "] " .$record['WoTranslation'])); ?>" data_rom="<?php echo tohtml($record['WoRomanization']); ?>" data_status="<?php echo $record['WoStatus']; ?>"  data_code="<?php echo $record['Code']; ?>" data_text="<?php echo tohtml($record['TiText']); ?>"><?php 
+								if (!$hidetag)
+{
+?><span class="<?php echo $hidetag; ?> mword <?php echo ($showAll ? 'mwsty' : 'wsty'); ?> <?php echo 'w'. $record['WoID']; ?> <?php echo 's'. $record['WoStatus']; ?>"><?php 
 
 if ($showAll)
 {
@@ -388,7 +398,7 @@ else
 }
 
  ?></span><?php	
-
+}
 			}
 						
 		} // ($actcode > 1) -- A MULTIWORD FOUND
@@ -397,7 +407,7 @@ else
 		
 		else {  // ($actcode == 1)  -- A WORD FOUND
 		
-			if (isset($record['WoID'])) {  // WORD FOUND STATUS 1-5,98,99
+			if (isset($record['WoID']) and $record['WoStatus'] == 1) {  // WORD FOUND STATUS 1-5,98,99
 			
 			$tone = 0;
 			
@@ -418,16 +428,19 @@ else
 				$tone = 4;
 			}
 				
-
-?><span id="<?php echo $spanid; ?>" class="<?php echo $hidetag; ?> click word wsty <?php echo 'word'. $record['WoID']; ?> <?php echo 't'. $tone . ' status'. $record['WoStatus']; ?> TERM<?php echo strToClassName($record['TiTextLC']); ?>" data_pos="<?php echo $currcharcount; ?>" data_order="<?php echo $record['TiOrder']; ?>" data_wid="<?php echo $record['WoID']; ?>" data_trans="<?php echo tohtml(repl_tab_nl( "[". $record['WoRomanization'] . "] " . $record['WoTranslation'])); ?>" data_rom="<?php echo tohtml($record['WoRomanization']); ?>" data_status="<?php echo $record['WoStatus']; ?>"><?php echo tohtml($record['TiText']) ?></span><?php	
-
+if (!$hidetag)
+{
+?><span class="wsty <?php echo 'w'. $record['WoID']; ?> <?php echo 't'. $tone . ' s'. $record['WoStatus']; ?>"><?php echo tohtml($record['TiText']) ?></span><?php	
+}
 			}   // WORD FOUND STATUS 1-5,98,99
 			
 			////////////////////////////////////////////////
 			
 			else {    // NOT A WORD AND NOT A MULTIWORD FOUND - STATUS 0
-			
-?><span id="<?php echo $spanid; ?>" class="<?php echo $hidetag; ?> click word wsty status0 TERM<?php echo strToClassName($record['TiTextLC']); ?>" data_pos="<?php echo $currcharcount; ?>" data_order="<?php echo $record['TiOrder']; ?>" data_trans="" data_rom="" data_status="0" data_wid=""><?php echo tohtml($record['TiText']); ?></span><?php	
+			if (!$hidetag)
+			{
+			 echo tohtml($record['TiText']); 
+			}?><?php	
 
 			}  // NOT A WORD AND NOT A MULTIWORD FOUND - STATUS 0
 			
@@ -576,16 +589,6 @@ else
 
 ?>
 
-
-<div id="about" title="About">
-	<p style="text-align:center; margin-top:50px;">
-This is "Learning With Texts" (LWT) for Mobile Devices<br />Version <?php echo get_version(); ?><br /><br />"Learning with Texts" (LWT) is released into the Public Domain. This applies worldwide. In case this is not legally possible, any entity is granted the right to use this work for any purpose, without any conditions, unless such conditions are required by law.<br /><br /> Developed with the <a href="http://iui-js.org" target="_self">iUI Framework</a>.<br /><br /><b>Back to<br/><a href="index.php" target="_self">LWT Standard Version</a></b>
-	</p>
-</div>
-
-<div id="notyetimpl" title="Sorry...">
-	<p style="text-align:center; margin-top:50px;">Not yet implemented!</p>
-</div>
 
 </body>
 </html>
