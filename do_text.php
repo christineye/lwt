@@ -49,7 +49,8 @@ if (isset($_REQUEST['start'])) {
 	
 	$audio = get_first_value('select TxAudioURI as value from ' . $tbpref . 'texts where TxID = ' . $_REQUEST['start']);
 	
-	framesetheader('Read');
+	$title = get_first_value('select TxTitle as value from ' . $tbpref . 'texts where TxID = ' . $_REQUEST['start']);
+	framesetheader($title);
 	
 	if ( $mobile ) {
 

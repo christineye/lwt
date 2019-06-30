@@ -174,6 +174,7 @@ if (isset($_REQUEST['op'])) {
 		} else {
 			
 			$imported = 0;
+			$importmessage = "";
 			for ($i = 0; $i < $textcount; $i++) {
 				$counter = makeCounterWithTotal ($textcount, $i+1);
 				$thistitle = $title . ($counter == '' ? '' : (' (' . $counter . ')')); 
@@ -185,13 +186,15 @@ if (isset($_REQUEST['op'])) {
 				$id = get_last_key();
 				saveTextTags($id);	
 				splitCheckText ($texts[$i], $langid, $id);
+				
+				$importmessage = $importmessage . "<a href='do_text.php?start=" . $id . "'>" . $title . "</a><br />"; 
 			}
 		
 		}
 		
-		$message = $imported . " Text(s) imported!";
+		$message =  $importmessage . $imported . " Text(s) imported!";
 		
-		echo error_message_with_hide($message,0);
+		echo $message;
 
 ?>		
 		<p>&nbsp;<br /><input type="button" value="Show Texts" onclick="location.href='edit_texts.php';" /></p>

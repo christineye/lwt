@@ -1151,7 +1151,7 @@ THE SOFTWARE.
 For more information, please refer to [http://unlicense.org/].
 ************************************************************ -->
 
-	<title>LWT :: <?php echo tohtml($title); ?></title>
+	<title><?php echo tohtml($title); ?></title>
 </head>
 <?php
 }
