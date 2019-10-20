@@ -49,7 +49,8 @@ require_once( 'utilities.inc.php' );
 
 
 ?>
-<html>
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta http-equiv="content-language" content="en" />
@@ -102,13 +103,6 @@ if (isset($_REQUEST["action"])) {  // Action
 ?>
 </title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-<link rel="apple-touch-icon" href="img/apple-touch-icon-57x57.png" />
-<link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon-72x72.png" />
-<link rel="apple-touch-icon" sizes="114x114" href="img/apple-touch-icon-114x114.png" />
-<link rel="apple-touch-startup-image" href="img/apple-touch-startup.png">
-<meta name="apple-touch-fullscreen" content="YES" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 <style type="text/css" media="screen">
 
 @import "./iui/iui.css";
@@ -160,7 +154,7 @@ while ($record = mysqli_fetch_assoc($res)) {  // MAIN LOOP
 
 	if ($record['WoStatus'] == 1)
 	{
-		echo ".w" . $record['WoID'] .  ":after{content: '" . "[" . $record['WoRomanization'] . ']' . str_replace("'", "\'", $record['WoTranslation']). "';}";
+		echo ".w" . $record['WoID'] .  ":after{content: '" . "[" . $record['WoRomanization'] . ']' . str_replace("'", "\'", tohtml($record['WoTranslation'])). "';}";
 	}
 	
 } // while ($record = mysql_fetch_assoc($res))  -- MAIN LOOP
@@ -174,9 +168,9 @@ while ($record = mysqli_fetch_assoc($res)) {  // MAIN LOOP
 <div class="toolbar">
 	<h1 id="pageTitle"></h1>
 	<a id="backButton" class="button" href="#"></a>
-	<a class="button" href="mobile.php" target="_self">Home</a>
+	<a class="button" href="index.php" target="_self">Home</a>
 </div>
-
+<div>
 
 <?php
 /**************************************************************/
@@ -241,6 +235,12 @@ if (isset($_REQUEST["action"])) {  // Action
 	
 	elseif ($action == 3) { 
 	
+		$print = false;
+		if (isset($_REQUEST["print"])) 
+		{
+			$print = $_REQUEST["print"];
+		}
+	
 		$lang = $_REQUEST["lang"];
 		$text = $_REQUEST["text"];
 		$texttitle = get_first_value('select TxTitle as value from ' . $tbpref . 'texts where TxID = ' . $text);
@@ -254,7 +254,7 @@ if (isset($_REQUEST["action"])) {  // Action
 		
 		
 		<h1><?php echo tohtml($texttitle); ?></h1>
-        <br /><a class="source" href="<?php echo $sourceuri; ?>"><?php echo $sourceuri; ?></a></li>
+        <br /><a class="source" href="<?php echo $sourceuri; ?>"><?php echo $sourceuri; ?></a>
         <?php echo getPreviousAndNextTextLinks($text, 'mobile.php?action=3&text=', FALSE, '&nbsp; | &nbsp;'); ?>
 		
         <br />
@@ -352,7 +352,8 @@ while ($record = mysqli_fetch_assoc($res)) {  // MAIN LOOP
 		
 			//$titext[$actcode] = $record['TiText'];
 			
-			if (isset($record['WoID']) and $record['WoStatus'] == 1) {  // MULTIWORD FOUND - DISPLAY (Status 1, display)
+			if (isset($record['WoID']) and 
+				(!$print or $record['WoStatus'] == 1)) {  // MULTIWORD FOUND - DISPLAY (Status 1, display)
 			
 				if (! $showAll) {
 					if ($hideuntil == -1) {
@@ -407,7 +408,8 @@ else
 		
 		else {  // ($actcode == 1)  -- A WORD FOUND
 		
-			if (isset($record['WoID']) and $record['WoStatus'] == 1) {  // WORD FOUND STATUS 1-5,98,99
+			if (isset($record['WoID']) and 
+			(!$print or $record['WoStatus'] == 1)) {  // WORD FOUND STATUS 1-5,98,99
 			
 			$tone = 0;
 			
@@ -589,7 +591,7 @@ else
 
 ?>
 
-
+</div>
 </body>
 </html>
 
